@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use App\FooService;
 use App\BlowfishEncrypter;
+use App\IFindAuthorService;
+use App\FindAuthorService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
 
             return new BlowfishEncrypter($key);
         });
+
+        $this->app->bind(IFindAuthorService::class, FindAuthorService::class);
     }
 
     protected function key(array $config)
