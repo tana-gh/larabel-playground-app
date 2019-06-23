@@ -17,4 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/users', UserAction::class);
+//Route::get('/users', UserAction::class);
+
+Route::group(['middleware' => 'api'], function ($router) {
+    Route::post('/users/login', User\LoginAction::class);
+    Route::post('/users', User\RetrieveAction::class);
+});
