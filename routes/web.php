@@ -31,3 +31,7 @@ Route::post('/json', function (Request $request) {
 Route::get('/jsonresource', JsonResourceAction::class);
 
 Route::get('/author/{id}', FindAuthorAction::class);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
