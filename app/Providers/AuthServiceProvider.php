@@ -7,6 +7,10 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Foundation\Application;
 use App\Auth\UserTokenProvider;
 use App\DataProviders\Database\UserToken;
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use App\User;
+use stdClass;
+use App\Policies\SomePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -16,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        stdClass::class => SomePolicy::class,
     ];
 
     /**
@@ -24,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(GateContract $gate)
     {
         $this->registerPolicies();
 
@@ -45,5 +49,9 @@ class AuthServiceProvider extends ServiceProvider
                 return new UserTokenProvider(new UserToken($app['db']));
             }
         );
+
+        $gate->define('user-access', function (User $user, $id) {
+            return intval($user->getAuthIdentifier()) === intval($id);
+        });
     }
 }

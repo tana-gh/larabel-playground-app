@@ -35,3 +35,9 @@ Route::get('/author/{id}', FindAuthorAction::class);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/register', RegisterAction::class);
+Route::get('/register/callback', CallbackAction::class);
+
+Route::get('/home/{id}', HomeWithIdAction::class);
+Route::get('/policy/{id}', PolicyWithIdAction::class);
